@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cover report</title>
+    <link rel="stylesheet" href="jqtree.css">
+    <style>
+        * {
+          box-sizing: border-box;
+        }
+
+        body,html{
+            padding: 0;
+            margin-top: 0;
+            margin-bottom: 0;
+        }
+
+        html {
+          height: 100%;
+        }
+
+        body {
+          height: 100%;
+          background: white;
+          color: rgb(80, 80, 80);
+        }
+
+        #box {
+          display: -webkit-flex;
+          display: flex;
+          height: 100%;
+        }
+
+
+        body,
+        pre,
+        #legend span {
+          font-family: Menlo, monospace;
+          font-weight: bold;
+        }
+
+        #content {
+          margin-top: 50px;
+        }
+
+        #nav,
+        #legend {
+          margin-left: 0px;
+        }
+
+        #legend {
+          margin-top: 2px;
+        }
+
+        #nav {
+          margin-top: 10px;
+        }
+
+        #legend span {
+          margin: 0 5px;
+        }
+
+        .cov0 {
+          color: rgb(192, 0, 0)
+        }
+
+        .cov1 {
+          color: rgb(128, 128, 128)
+        }
+
+        .cov2 {
+          color: rgb(116, 140, 131)
+        }
+
+        .cov3 {
+          color: rgb(104, 152, 134)
+        }
+
+        .cov4 {
+          color: rgb(92, 164, 137)
+        }
+
+        .cov5 {
+          color: rgb(80, 176, 140)
+        }
+
+        .cov6 {
+          color: rgb(68, 188, 143)
+        }
+
+        .cov7 {
+          color: rgb(56, 200, 146)
+        }
+
+        .cov8 {
+          color: rgb(44, 212, 149)
+        }
+
+        .cov9 {
+          color: rgb(32, 224, 152)
+        }
+
+        .cov10 {
+          color: rgb(20, 236, 155)
+        }
+      </style>
+</head>
+
+<body>
+
+    <div id="box" style="height: 100%; overflow: hidden;">
+      <div style="width: 25%;" id="menu">
+      </div>
+      <div style="height: 100%; width: 80%; overflow-y: auto;">
+        <div style="height: 2%;width: 100%; " id="legend">
+          <span style="margin-left: 20%;">not tracked</span>
+
+          <span class="cov0">no coverage</span>
+          <span class="cov1">low coverage</span>
+          <span class="cov2">*</span>
+          <span class="cov3">*</span>
+          <span class="cov4">*</span>
+          <span class="cov5">*</span>
+          <span class="cov6">*</span>
+          <span class="cov7">*</span>
+          <span class="cov8">*</span>
+          <span class="cov9">*</span>
+          <span class="cov10">high coverage</span>
+
+        </div>
+        <div style="height: 98%; ">
+          <hr>
+          <div id="content">
+              {{.Content}}
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+  </body>
+<script src="jquery.min.js"></script>
+<script src="tree.jquery.debug.js"></script>
+<script>
+    var data = {{.Data}}
+    var last = "";
+$(function() {
+    $('#menu').tree({
+        data: data,
+        closedIcon: '+',
+        openedIcon: '-',
+        selectable: false,
+    });
+});
+
+$('#menu').on(
+    'tree.click',
+    function(event) {
+        // The clicked node is 'event.node'
+        id = event.node.id;
+        if (id ==undefined) {
+            return
+        }
+
+        var part = id;
+        visible = document.getElementById(part);
+        if (!visible)
+            return;
+        visible.style.display = 'block';
+
+        if (last == part) {
+            return;
+        }
+        visible = document.getElementById(last);
+        last = part;
+        if (!visible)
+            return;
+        visible.style.display = 'none';
+        console.log(id);
+    }
+);
+
+</script>
+
+</html>
